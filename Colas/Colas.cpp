@@ -8,7 +8,6 @@
 
 #include <iostream>
 #include<stdlib.h>
-#include<conio.h>
 
 using namespace std;
 //Creando la estructura nodo 
@@ -18,7 +17,7 @@ struct Nodo {
 };
 
 void add_queue(Nodo*&, Nodo*&, int);//Creando prototipo de la funcion 
-void del_queue(Nodo*&, Nodo*&, int&);//Creando prototipo de la funcion 
+int  del_queue(Nodo*&, Nodo*&);//Creando prototipo de la funcion 
 void display_queue(Nodo*&);//Creando prototipo de la funcion 
 bool empty_queue(Nodo*);//Creando prototipo de la funcion 
 void menu();//Creando prototipo de la funcion 
@@ -38,9 +37,9 @@ void menu() {
 	do
 	{
 		cout << "\t.:MENU:.\n";
-		cout << "1.Insertar un elemento en la cola" << endl;
-		cout << "2.Eliminar los elementos de la cola" << endl;
-		cout << "3.Mostrarlos elementos de la cola" << endl;
+		cout << "1.Insertar un elemento" << endl;
+		cout << "2.Eliminar los elementos" << endl;
+		cout << "3.Mostrar los elementos" << endl;
 		cout << "4.Salir"<<endl;
 		
 		cout << "\nIngrese la opcion de su preferencia:";
@@ -56,19 +55,17 @@ void menu() {
 			break;
 		 case 2://Eliminar elemento de la cola
 			 cout << "\nEliminando datos de la cola:\n";
-			 while (front != NULL)//Mientras la cola no este vacia
-			 {
-				del_queue(front,back, dat);//Llama a la funcion que me permite eliminar todos los elementos de la cola
+				  dat = del_queue(front,back);//Llama a la funcion que me permite eliminar todos los elementos de la cola
 
 				 if (front != NULL)// En caso de que haya mas de un elemento
 				 {
-					 cout << dat << ",";//Muestra los elementos eliminados separados en coma
+					 cout << dat << endl;//Muestra los elementos eliminados separados en coma
 				 }
 				 else// si no 
 				 {
-					 cout << dat << ".";//Muestra el elemento eliminado seguido de un punto
+					 cout << dat << endl;//Muestra el elemento eliminado seguido de un punto
 				 }
-			 }
+			 
 			 system("pause");//Pausa el programa hasta que presiones una tecla
 			break;
 		 case 3://Mostrar los elementos que contiene la cola
@@ -122,20 +119,24 @@ bool empty_queue(Nodo* front) {
 }
 
 //Funcion que me permite eliminar todos los elementos de la cola
-void del_queue(Nodo*& front, Nodo*& back, int& n) {
-	n = front->dat;//Seleccionamos el dato que queremos eliminar
+int del_queue(Nodo*& front, Nodo*& back) {
+	int n;
 	Nodo* aux = front;// creamos un nodo auxiliar y le asignamos el frente de la cola
-
 	if (front == back)//si el nodo de atras y nodo de frente de la cola son iguales significa que solo hay un elemento en la cola
 	{
-		front = NULL;//Asignamos el frente de la cola a NULL
-		back = NULL;// Asignamos la parte de atras de la cola a NULL
+		n = front->dat; //Seleccionamos el dato que queremos eliminar
+		front = back = NULL; // Asignamos la parte trasera y frontal a NULL
 	}
+
 	else//si no 
 	{
+		n = front->dat;
 		front = front->next;//Asignamos el frente de la cola al nodo siguiente
+
 	}
-	delete aux;//Eliminamos el elemento de la cola 
+	
+	delete aux;//Eliminamos el elemento de la cola
+	return n;
 }
 
 //Funcion que me permite mostrar todos los elementos de la cola
